@@ -3,7 +3,7 @@ import argparse
 import re
 import string
 
-parser = argparse.ArgumentParser(description='Solves the following Lab: Blind SQL injection with conditional errors')
+parser = argparse.ArgumentParser(description='Solves the following Lab: Visible error-based SQL injection')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
 
