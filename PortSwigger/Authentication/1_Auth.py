@@ -2,7 +2,7 @@ from listgen import *
 import requests
 import argparse
 
-parser = argparse.ArgumentParser(description='Solves the following Lab: Visible error-based SQL injection')
+parser = argparse.ArgumentParser(description='Solves the following Lab: Username enumeration via different responses')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
 
