@@ -2,7 +2,7 @@ import requests
 import argparse
 import re
 
-parser = argparse.ArgumentParser(description='Solves the following Lab: Web shell upload via path traversal')
+parser = argparse.ArgumentParser(description='Solves the following Lab: Web shell upload via obfuscated file extension')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
 
