@@ -3,7 +3,7 @@ import argparse
 import re
 import webbrowser as wb
 
-parser = argparse.ArgumentParser(description='Solves the following Lab: Exploiting XInclude to retrieve files')
+parser = argparse.ArgumentParser(description='Solves the following Lab: Exploiting XXE via image file upload')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
 
